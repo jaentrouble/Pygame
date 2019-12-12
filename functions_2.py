@@ -224,7 +224,7 @@ class Grid() :
                     for crsh in self.grid[i][j] :
                         if not crsh in crash :
                             crash.append(crsh)
-        global CRASHTIME 
+        # global CRASHTIME 
         #CRASHTIME += time.time()-t
         return crash
 

@@ -87,7 +87,7 @@ class Main() :
                         eukaryote.Epithelium((x,y), (1,1))
                     elif event.key == pygame.K_v :
                         x, y = pygame.mouse.get_pos()
-                        virus.HIV((x,y), (1,1))
+                        virus.Epi_virus((x,y), (1,1))
                     elif event.key == pygame.K_s :
                         self.take_screenshot()
                     elif event.key == pygame.K_q :
@@ -179,4 +179,4 @@ class Main() :
 
 
 if __name__ == '__main__' :
-    Main(1600, 300, 60, True, 1).run()
+    Main(1000, 300, 60, True, 1).run()

@@ -20,15 +20,15 @@ class Virus (cell.Cell) :
         Virus.virus_list.append(self)
 
     def infect(self) :
-        for c in cell.Cell.cell_list :
-            if self.rect.colliderect(c.rect) :
+        for crsh in self.crashed :
+            if isinstance(crsh, cell.Cell) :
                 for r in self.host_receptor :
-                    if c.receptor.count(r) :
+                    if crsh.receptor.count(r) :
                         for g in self.eject_gene :
-                            if not c.gene.count(g) :
-                                c.gene.append(g)
+                            if not crsh.gene.count(g) :
+                                crsh.gene.append(g)
                         self.kill()
-                        break
+                        return
 
     def kill(self) :
         pygame.sprite.DirtySprite.kill(self)

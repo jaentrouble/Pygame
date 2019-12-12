@@ -112,4 +112,4 @@ class Dummy (pygame.sprite.DirtySprite) :
             self.dirty = 1
 
 if __name__ == '__main__' :
-    Loader('1.json', 1600, 900).run()
+    Loader('1.json', 1000, 300).run()
