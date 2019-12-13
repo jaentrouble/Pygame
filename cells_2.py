@@ -118,7 +118,6 @@ class Cell(pygame.sprite.DirtySprite) :
         """
         return self.rect.copy()
 
-
 class Eukaryote(Cell) :
     def __init__ (self, startpos : list, speed : list, imgnum : int = 0) :
         Cell.__init__(self, startpos, speed, imgnum)
