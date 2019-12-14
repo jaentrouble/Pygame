@@ -526,6 +526,12 @@ class Ribosome() :
         if not self.wait_list.count(name) :
             self.wait_list.append(name)
 
+    def clear_waitlist(self) :
+        """
+        delete all waiting list
+        """
+        self.wait_list = []
+
     def get_waitlist(self) :
         """
         returns a copy of the waiting list

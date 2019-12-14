@@ -67,3 +67,10 @@ class Epi_virus (pathogen.Virus) :
                         else :
                             Epi_virus((host.get_rect().right+10,host.get_rect().centery), tool.rand_2D(1,4))
                 host.necrosis()
+
+class Picorna (pathogen.Virus) :
+    IMGDICT['Picorna'] = cell.Cell.imgs[pathogen.Virus.img_idx[0]]
+    LAYERDICT['Picorna'] = PATHOGENLAYER
+    def __init__ (self, startpos : list, speed : list) :
+        pathogen.Virus.__init__(self, startpos, speed, 0)
+        self.host_receptor.extend(['heparansulfate'])
