@@ -11,7 +11,7 @@ DEFAULTLAYER = 0
 
 class Cell(pygame.sprite.DirtySprite) :
     """
-    Any thing that has a place to 'recognize' and has genes
+    Any thing that has receptors and genes
     Genes should not have any other parameters than self
     """
     imgs = []
@@ -38,10 +38,12 @@ class Cell(pygame.sprite.DirtySprite) :
         self.gene = [Cell.update_pos]    #list of methods to execute every update -> append every functions to this list
                                         # Don't use self.method, use Class.method
         self.receptor = [] #anything that's on the surface
-        self.cytosol = {} # anything to keep, {'name' : 'number of the item'}
+        self.cytosol = {} # anything to keep, {'class' : 'number of the item'} use issubclass
+        self.status = {} # anything to tell about it's state
         Cell.cell_list.append(self)
         self.bounced = False
         tool.totalgrid.register(self)
+        self.crashed = []
 
     def kill(self) :
         pygame.sprite.DirtySprite.kill(self)
@@ -136,18 +138,17 @@ class Eukaryote(Cell) :
             Eukaryote.release_cytokine])
         self.ribosome = Ribosome(self.cytosol)
         self.cytokine = []  #cytokines that should be released / list of cytokine classes
-        self.crashed = []
 
     def release_cytokine(self) :
         """
         releases cytokine and resets the list
         """
         for cy in self.cytokine :
-            if self.cytosol.get(type(cy).__name__, False) and self.cytosol[type(cy).__name__] > 0:
+            if self.cytosol.get(cy, False) and self.cytosol[cy] > 0:
                 cy(self.pos, tool.rand_2D(0.7))
-                self.cytosol[type(cy).__name__] -= 1
+                self.cytosol[cy] -= 1
             else : 
-                self.ribosome.mrna(type(cy).__name__, 100)
+                self.ribosome.mrna(cy, 100)
         self.cytokine.clear()
 
     def update_ribosome (self) :
@@ -500,7 +501,7 @@ class Ribosome() :
         host dict should be { (protein name) : (num of protein)}
         """
         self.recipe_dict = {}
-        self.wait_list = []
+        self.wait_list = {}
         self.host_dict = host
         self.atp_total = 0
 
@@ -516,16 +517,16 @@ class Ribosome() :
         else :
             return 0
 
-    def mrna(self, name, atp_consume : int) :
+    def mrna(self, name : 'class', atp_consume : int) :
         """
-        adds a 'name' protein to the waiting list
+        adds a 'name' to the waiting list
         if the same protein with different atp value is added,
         the atp needed to make the protein will be overwritten in the dictionary
         will not append if the same protein is already in the waiting list
         """
         self.recipe_dict[name] = atp_consume
-        if not self.wait_list.count(name) :
-            self.wait_list.append(name)
+        if not name in self.wait_list :
+            self.wait_list[name] = 0
 
     def get_waitlist(self) :
         """
@@ -534,14 +535,19 @@ class Ribosome() :
         return self.wait_list.copy()
 
     def update(self) :
-        if len(self.wait_list) :
+        l = len(self.wait_list)
+        made = []
+        if l :
             for pt in self.wait_list :
-                if self.atp_total/len(self.wait_list) > self.recipe_dict[pt] :
-                    self.atp_total -= self.recipe_dict[pt]
+                self.wait_list[pt] += self.atp_total/l
+                if self.wait_list[pt] > self.recipe_dict[pt] :
                     if self.host_dict.get(pt, False) :
                         self.host_dict[pt] += 1
                     else :
                         self.host_dict[pt] = 1
-                    self.wait_list.remove(pt)
+                    made.append(pt)
+            for pt in made:
+                self.wait_list.pop(pt)
+            self.atp_total = 0
 
 

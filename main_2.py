@@ -53,7 +53,7 @@ class Main() :
         mainloop = True
         self.screen.blit(self.background, (0,0))     
         self.set_skin()
-        self.one = eukaryote.Macrophage(tool.rand_point(self.vessel),tool.rand_2D())
+        #self.one = eukaryote.Macrophage(tool.rand_point(self.vessel),tool.rand_2D())
         tool.filler(eukaryote.Epithelium,[(0,0)],0,self.skin_area, [self.ingroup])
         if self.render_mode :
             self.saver = tool.Saver('1.json')
