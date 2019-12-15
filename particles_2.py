@@ -16,7 +16,7 @@ class Particle(pygame.sprite.DirtySprite) :
         imgs.append(pygame.image.load(os.path.join(IMAGE, "glucose.png")))
         imgs.append(pygame.image.load(os.path.join(IMAGE, "ab.png")))
         imgs.append(pygame.image.load(os.path.join(IMAGE, "nb.png")))
-        imgs.append(pygame.Surface((5,5)))
+        imgs.append(pygame.Surface((2,2)))
     except:
         raise UserWarning( "Unable to load particle images")
 

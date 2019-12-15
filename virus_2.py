@@ -6,6 +6,7 @@ import particles_2 as particle
 import functions_2 as tool
 import cells_2 as cell
 import pathogen_2 as pathogen
+import viralparticles_2 as vp
 IMGDICT = {}
 LAYERDICT = {}
 PATHOGENLAYER = pathogen.PATHOGENLAYER
@@ -21,11 +22,11 @@ class HIV (pathogen.Virus) :
         self.eject_gene.extend([HIV.replicate, HIV.make_particle])
 
     def make_particle (host : cell.Eukaryote) :
-        host.ribosome.mrna('HIVcapsid', 1000)
+        host.ribosome.mrna(vp.HIVCapsid, 1000)
 
     def replicate (host : cell.Eukaryote) :
-        if host.cytosol.get('HIVcapsid',False) :
-            host.cytosol['HIVcapsid'] -= 1
+        if host.cytosol.get(vp.HIVCapsid,False) :
+            host.cytosol[vp.HIVCapsid] -= 1
             drt = random.randint(1,4)
             if drt < 3 :
                 if drt == 1 :
@@ -46,14 +47,15 @@ class Epi_virus (pathogen.Virus) :
         pathogen.Virus.__init__(self, startpos, speed, 0)
         self.host_receptor.extend(['heparansulfate'])
         self.eject_gene.extend([Epi_virus.make_particle,Epi_virus.replicate])
+        self.gene_type = vp.ViralDNA
 
     def make_particle (host : cell.Eukaryote) :
-        host.ribosome.mrna('Epi_viruscapsid', 300)
+        host.ribosome.mrna(vp.EpiCapsid, 300)
 
     def replicate (host : cell.Eukaryote) :
-        if host.cytosol.get('Epi_viruscapsid', False) :
-            if host.cytosol['Epi_viruscapsid'] > Epi_virus.repnum :
-                host.cytosol['Epi_viruscapsid'] -= Epi_virus.repnum
+        if host.cytosol.get(vp.EpiCapsid, False) :
+            if host.cytosol[vp.EpiCapsid] > Epi_virus.repnum :
+                host.cytosol[vp.EpiCapsid] -= Epi_virus.repnum
                 for _ in range(Epi_virus.repnum) :
                     drt = random.randint(1,4)
                     if drt < 3 :
