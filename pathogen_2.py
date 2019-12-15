@@ -5,6 +5,7 @@ import math
 import particles_2 as particle
 import functions_2 as tool
 import cells_2 as cell
+import viralparticles_2 as vp
 PATHOGENLAYER = 1
 
 class Virus (cell.Cell) :
@@ -18,15 +19,20 @@ class Virus (cell.Cell) :
         self.eject_gene = []
         self.host_receptor = [] #receptors the virus recognizes of the cell
         Virus.virus_list.append(self)
+        self.gene_type = vp.ViralNucleicAcid
 
     def infect(self) :
         for crsh in self.crashed :
             if isinstance(crsh, cell.Cell) :
                 for r in self.host_receptor :
-                    if crsh.receptor.count(r) :
+                    if r in crsh.receptor :
                         for g in self.eject_gene :
-                            if not crsh.gene.count(g) :
+                            if not g in crsh.gene :
                                 crsh.gene.append(g)
+                        if not self.gene_type in crsh.cytosol :
+                            crsh.cytosol[self.gene_type] = 1
+                        else:
+                            crsh.cytosol[self.gene_type] += 1
                         self.kill()
                         return
 

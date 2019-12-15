@@ -65,6 +65,11 @@ class Loader() :
             ###################
             if frame < frame_max :
                 sq = self.sequel[frame]
+                for name in self.dummies :
+                    if not name in sq :
+                        for _ in range(len(self.dummies[name])):
+                            tmp = self.dummies[name].pop()
+                            tmp.kill()
                 for name in sq :
                     if name in self.imgdict :
                         if not name in self.dummies :
@@ -107,7 +112,7 @@ class Dummy (pygame.sprite.DirtySprite) :
         bef = self.rect.copy()
         self.rect.centerx = pos[0]
         self.rect.centery = pos[1]
-        self.dirty = 1
+        #self.dirty = 1
         if bef != self.rect :
             self.dirty = 1
 
