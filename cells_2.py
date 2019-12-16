@@ -146,7 +146,7 @@ class Eukaryote(Cell) :
         """
         for cy in self.cytokine :
             if self.cytosol.get(cy, False) and self.cytosol[cy] > 0:
-                cy(self.pos, tool.rand_2D(0.7))
+                cy(self.pos, tool.rand_2D(1.2))
                 self.cytosol[cy] -= 1
             else : 
                 self.ribosome.mrna(cy, 100)

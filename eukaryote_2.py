@@ -19,7 +19,6 @@ class HumanCell(cell.Eukaryote) :
                             vp.ViralNucleicAcid]
         self.gene.extend([HumanCell.cyto_prr])
         self.receptor.extend([creceptor.MHC1()])
-        #123
 
     def cyto_prr(self) :
         mhc = any(isinstance(r, creceptor.MHC1) for r in self.receptor) #check if it has MHC1
@@ -31,7 +30,8 @@ class HumanCell(cell.Eukaryote) :
                     if mhc :
                         for re in self.receptor :
                             if isinstance(re, creceptor.MHC1): # puts foreign object to MHC1
-                                re.antigen.append(something)
+                                if not something in re.antigen:
+                                    re.antigen.append(something)
                                 break
                     break
 
@@ -54,7 +54,7 @@ class Macrophage (HumanCell) :
         self.phagosome = []
         self.gene.extend([Macrophage.phagocytosis,Macrophage.lysosome, Macrophage.update_phagosome, \
             Macrophage.attracted])
-        self.attractant = ['Nb', 'IFN1']
+        self.attractant = [cytokine.Nb, cytokine.IFN1]
 
     def phagocytosis (self) :
         for crsh in self.crashed :
@@ -64,11 +64,10 @@ class Macrophage (HumanCell) :
                     
     def attracted (self) :
         for crsh in self.crashed :
-            if isinstance(crsh, particle.Cytokine):
-                if self.attractant.count(crsh.name) :
-                    newvector = tool.turn_vector(self.speed, [crsh.pos[0]-self.pos[0],crsh.pos[1]-self.pos[1]])
-                    self.set_speed(newvector[0],newvector[1])
-                    crsh.lysis()
+            if any(isinstance(crsh, a) for a in self.attractant):
+                newvector = tool.turn_vector(self.speed, [crsh.pos[0]-self.pos[0],crsh.pos[1]-self.pos[1]])
+                self.set_speed(newvector[0],newvector[1])
+                crsh.lysis()
 
     def lysosome(self) :
         self.phagosome[:] = [ph for ph in self.phagosome if not ph.lysis()]
@@ -115,3 +114,30 @@ class CD8Tcell(HumanCell) :
     def __init__(self, startpos : list, speed : list) :
         HumanCell.__init__(self, startpos, speed, 5)
         self.receptor.extend([creceptor.CD8()])
+        self.gene.extend([CD8Tcell.cytotoxic, CD8Tcell.attracted])
+        self.selfantigen = [creceptor.CellReceptor]
+        self.attractant = [cytokine.IFN1]
+
+    def cytotoxic(self):
+        for crsh in self.crashed :
+            if isinstance(crsh, HumanCell) :
+                if self.MHC1check(crsh) :
+                    crsh.apoptosis()
+
+    def MHC1check(self, crsh : cell.Cell):
+        if not len(self.selfantigen) :
+            return True
+        for r in crsh.receptor :
+            if isinstance(r,creceptor.MHC1) :
+                for ag in r.antigen :
+                    for sa in self.selfantigen :
+                        if not issubclass(ag, sa):
+                            return True
+        return False
+
+    def attracted (self) :
+        for crsh in self.crashed :
+            if any(isinstance(crsh, a) for a in self.attractant):
+                newvector = tool.turn_vector(self.speed, [crsh.pos[0]-self.pos[0],crsh.pos[1]-self.pos[1]])
+                self.set_speed(newvector[0],newvector[1])
+                crsh.lysis()

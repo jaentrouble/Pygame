@@ -170,4 +170,10 @@ class Cytokine(Particle) :
             Cytokine.surface_dict[self.name] = self.image.copy()
             Cytokine.surface_dict[self.name].fill(newcolor)
         self.image = Cytokine.surface_dict[self.name]
-
+        self.life = 200 #of frames until death
+        
+    def update(self):
+        Particle.update(self)
+        self.life -= 1
+        if not self.life :
+            self.kill()

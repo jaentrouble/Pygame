@@ -12,9 +12,10 @@ import time
 import rapidjson
 
 SAVEDIR = 'savefile'
+IMAGE = 'image'
 
 class Loader() :
-    def __init__ (self, filename : str, width : int, height : int) :
+    def __init__ (self, filename : str, width : int, height : int, glucose : bool = True) :
         pygame.init()
         self.root = os.path.join(SAVEDIR, filename)
         self.imgdict = {}
@@ -26,6 +27,7 @@ class Loader() :
         self.background = pygame.Surface((width, height))
         self.background.fill((255,255,255))
         self.background = self.background.convert()
+        self.show_glucose = glucose
         
     def run(self) :
         self.load()
@@ -47,6 +49,10 @@ class Loader() :
             self.layerdict[name] = cytokine.LAYERDICT[name]
         for name in virus.LAYERDICT :
             self.layerdict[name] = virus.LAYERDICT[name]
+
+        if not self.show_glucose :
+            if 'Glucose' in self.imgdict:
+                self.imgdict['Glucose'] = pygame.image.load(os.path.join(IMAGE, "None.png"))
         mainloop = True
         frame = 0
         frame_max = len(self.sequel)
@@ -117,4 +123,4 @@ class Dummy (pygame.sprite.DirtySprite) :
             self.dirty = 1
 
 if __name__ == '__main__' :
-    Loader('1.json', 1000, 300).run()
+    Loader('1.json', 1000, 300, False).run()

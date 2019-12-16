@@ -76,7 +76,7 @@ class Main() :
                     #if event.key == pygame.K_r :
                     #    self.one.replicate_now = True
                     if event.key == pygame.K_t :
-                        pass
+                        eukaryote.CD8Tcell((x,y), tool.rand_2D(1))
                     elif event.key == pygame.K_m :
                         eukaryote.Macrophage((x,y), tool.rand_2D(1))
                     elif event.key == pygame.K_e :
