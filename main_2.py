@@ -41,9 +41,7 @@ class Main() :
 
     def groupsetter(self) :
         cell.Cell.groups = self.allgroup
-        eukaryote.Macrophage.groups = self.allgroup, self.ingroup
-        eukaryote.Epithelium.groups = self.allgroup, self.ingroup
-        eukaryote.Th2.groups = self.allgroup, self.ingroup
+        eukaryote.HumanCell.groups = self.allgroup, self.ingroup
         particle.Particle.groups = self.allgroup
         particle.ApoptoticBody.groups = self.allgroup, self.ingroup
         particle.NecroticBody.groups = self.allgroup, self.ingroup
@@ -71,22 +69,19 @@ class Main() :
                     mainloop = False
                 elif event.type == pygame.KEYDOWN :
                     if event.key == pygame.K_ESCAPE :
-                        mainloop = False 
-
-            ###################
+                            mainloop = False 
+                            break
+            ####################################################
+                    x, y = pygame.mouse.get_pos()
                     #if event.key == pygame.K_r :
                     #    self.one.replicate_now = True
-                    elif event.key == pygame.K_t :
-                        x, y = pygame.mouse.get_pos()
-                        eukaryote.Th2((x,y), tool.rand_2D(2))
+                    if event.key == pygame.K_t :
+                        pass
                     elif event.key == pygame.K_m :
-                        x, y = pygame.mouse.get_pos()
                         eukaryote.Macrophage((x,y), tool.rand_2D(1))
                     elif event.key == pygame.K_e :
-                        x, y = pygame.mouse.get_pos()
                         eukaryote.Epithelium((x,y), (1,1))
                     elif event.key == pygame.K_v :
-                        x, y = pygame.mouse.get_pos()
                         virus.Epi_virus((x,y), (1,1))
                     elif event.key == pygame.K_s :
                         self.take_screenshot()

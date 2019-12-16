@@ -7,6 +7,7 @@ import cytokines_2 as cytokine
 import functions_2 as tool
 import cells_2 as cell
 import viralparticles_2 as vp
+import cellreceptors_2 as creceptor
 IMGDICT = {}
 DEFAULTLAYER = cell.DEFAULTLAYER
 LAYERDICT = {}
@@ -14,24 +15,34 @@ LAYERDICT = {}
 class HumanCell(cell.Eukaryote) :
     def __init__(self, startpos : list, speed : list, imgnum : int = 0) :
         cell.Eukaryote.__init__(self,startpos,speed,imgnum)
-        self.c_pamp_list = [vp.Capsid,          # recog by cytoplasmic prr
+        self.c_pamp_list = [vp.ViralProtein,          # recog by cytoplasmic prr
                             vp.ViralNucleicAcid]
         self.gene.extend([HumanCell.cyto_prr])
+        self.receptor.extend([creceptor.MHC1()])
+        #123
 
     def cyto_prr(self) :
+        mhc = any(isinstance(r, creceptor.MHC1) for r in self.receptor) #check if it has MHC1
         for something in self.cytosol :
             for cpmp in self.c_pamp_list :
                 if issubclass(something, cpmp):
-                    if not cytokine.IFN1 in self.cytokine : self.cytokine.append(cytokine.IFN1)
+                    if not cytokine.IFN1 in self.cytokine :    #releases IFN type 1
+                        self.cytokine.append(cytokine.IFN1)
+                    if mhc :
+                        for re in self.receptor :
+                            if isinstance(re, creceptor.MHC1): # puts foreign object to MHC1
+                                re.antigen.append(something)
+                                break
+                    break
 
 
-class Th2 (HumanCell) :
+class CD4Tcell (HumanCell) :
     rect = cell.Cell.imgs[2].get_rect()
-    IMGDICT['Th2'] = cell.Cell.imgs[2]
-    LAYERDICT['Th2'] = DEFAULTLAYER
+    IMGDICT['CD4Tcell'] = cell.Cell.imgs[2]
+    LAYERDICT['CD4Tcell'] = DEFAULTLAYER
     def __init__(self, startpos : list, speed : list) :
         HumanCell.__init__(self, startpos, speed, 2)
-        self.receptor.extend(['CD4'])
+        self.receptor.extend([creceptor.CD4()])
 
 class Macrophage (HumanCell) :
     rect = cell.Cell.imgs[3].get_rect()
@@ -39,11 +50,11 @@ class Macrophage (HumanCell) :
     LAYERDICT['Macrophage'] = DEFAULTLAYER
     def __init__(self, startpos : list, speed : list) :
         HumanCell.__init__(self, startpos, speed, 3)
-        self.receptor.extend(['MHC2'])
+        self.receptor.extend([creceptor.MHC2()])
         self.phagosome = []
         self.gene.extend([Macrophage.phagocytosis,Macrophage.lysosome, Macrophage.update_phagosome, \
             Macrophage.attracted])
-        self.attractant = ['Nb']
+        self.attractant = ['Nb', 'IFN1']
 
     def phagocytosis (self) :
         for crsh in self.crashed :
@@ -73,7 +84,7 @@ class Epithelium (HumanCell) :
     LAYERDICT['Epithelium'] = DEFAULTLAYER
     def __init__(self, startpos: list, speed : list) :
         HumanCell.__init__(self, startpos, speed, 4)
-        self.receptor.extend(['heparansulfate'])
+        self.receptor.extend([creceptor.Heparansulfate()])
         self.gene.extend([Epithelium.meet_particle])
         Epithelium.epithelium_list.append(self)
 
@@ -97,3 +108,10 @@ class Epithelium (HumanCell) :
         #        if type(particle.Particle.particle_list[idx]).__name__ == 'NecroticBody' :
         #            if not 'nb' in self.cytokine : self.cytokine.append('nb')
 
+class CD8Tcell(HumanCell) :
+    rect = cell.Cell.imgs[5].get_rect()
+    IMGDICT['CD8Tcell'] = cell.Cell.imgs[5]
+    LAYERDICT['CD8Tcell'] = DEFAULTLAYER
+    def __init__(self, startpos : list, speed : list) :
+        HumanCell.__init__(self, startpos, speed, 5)
+        self.receptor.extend([creceptor.CD8()])

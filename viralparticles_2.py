@@ -1,6 +1,8 @@
 ## empty classes to represent some proteins or particles etc.
+class ViralProtein() :
+    pass
 
-class Capsid() :
+class Capsid(ViralProtein) :
     pass
 
 class HIVCapsid(Capsid) :

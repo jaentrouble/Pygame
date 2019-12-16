@@ -19,9 +19,10 @@ class Cell(pygame.sprite.DirtySprite) :
     try :
         imgs.append(pygame.image.load(os.path.join(IMAGE, "eukaryote.png"))) #0
         imgs.append(pygame.image.load(os.path.join(IMAGE, "virus.png")))     #1
-        imgs.append(pygame.image.load(os.path.join(IMAGE, "Th2.png")))       #2
+        imgs.append(pygame.image.load(os.path.join(IMAGE, "CD4.png")))       #2
         imgs.append(pygame.image.load(os.path.join(IMAGE, "macrophage.png")))#3
         imgs.append(pygame.image.load(os.path.join(IMAGE, "epithelium.png")))#4
+        imgs.append(pygame.image.load(os.path.join(IMAGE, "CD8.png")))       #5
     except:
         raise UserWarning( "Unable to load Cell images")
 
@@ -37,7 +38,7 @@ class Cell(pygame.sprite.DirtySprite) :
         self.acc = [0,0]
         self.gene = [Cell.update_pos]    #list of methods to execute every update -> append every functions to this list
                                         # Don't use self.method, use Class.method
-        self.receptor = [] #anything that's on the surface
+        self.receptor = [] #anything that's on the surface, put it in as an object, not class
         self.cytosol = {} # anything to keep, {'class' : 'number of the item'} use issubclass
         self.status = {} # anything to tell about it's state
         Cell.cell_list.append(self)
@@ -119,6 +120,7 @@ class Cell(pygame.sprite.DirtySprite) :
         returns a copy of self.rect
         """
         return self.rect.copy()
+
 
 class Eukaryote(Cell) :
     def __init__ (self, startpos : list, speed : list, imgnum : int = 0) :
@@ -526,12 +528,6 @@ class Ribosome() :
         self.recipe_dict[name] = atp_consume
         if not name in self.wait_list :
             self.wait_list[name] = 0
-
-    def clear_waitlist(self) :
-        """
-        delete all waiting list
-        """
-        self.wait_list = []
 
     def get_waitlist(self) :
         """

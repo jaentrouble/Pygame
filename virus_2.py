@@ -7,6 +7,7 @@ import functions_2 as tool
 import cells_2 as cell
 import pathogen_2 as pathogen
 import viralparticles_2 as vp
+import cellreceptors_2 as creceptor
 IMGDICT = {}
 LAYERDICT = {}
 PATHOGENLAYER = pathogen.PATHOGENLAYER
@@ -18,7 +19,7 @@ class HIV (pathogen.Virus) :
     LAYERDICT['HIV'] = PATHOGENLAYER
     def __init__ (self, startpos : list, speed : list) :
         pathogen.Virus.__init__(self, startpos, speed, 0)
-        self.host_receptor.extend(['CD4'])
+        self.host_receptor.extend([creceptor.CD4])
         self.eject_gene.extend([HIV.replicate, HIV.make_particle])
 
     def make_particle (host : cell.Eukaryote) :
@@ -45,7 +46,7 @@ class Epi_virus (pathogen.Virus) :
     repnum = 10
     def __init__ (self, startpos : list, speed : list) :
         pathogen.Virus.__init__(self, startpos, speed, 0)
-        self.host_receptor.extend(['heparansulfate'])
+        self.host_receptor.extend([creceptor.Heparansulfate])
         self.eject_gene.extend([Epi_virus.make_particle,Epi_virus.replicate])
         self.gene_type = vp.ViralDNA
 
@@ -69,10 +70,3 @@ class Epi_virus (pathogen.Virus) :
                         else :
                             Epi_virus((host.get_rect().right+10,host.get_rect().centery), tool.rand_2D(1,4))
                 host.necrosis()
-
-class Picorna (pathogen.Virus) :
-    IMGDICT['Picorna'] = cell.Cell.imgs[pathogen.Virus.img_idx[0]]
-    LAYERDICT['Picorna'] = PATHOGENLAYER
-    def __init__ (self, startpos : list, speed : list) :
-        pathogen.Virus.__init__(self, startpos, speed, 0)
-        self.host_receptor.extend(['heparansulfate'])

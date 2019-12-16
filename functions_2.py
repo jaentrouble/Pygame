@@ -179,6 +179,8 @@ class Grid() :
         self.grid = []
 
     def initialize(self, width : int, height : int) :
+        self.width = width
+        self.height = height
         for i in range(width) :
             self.grid.append([])
             for j in range(height) :
@@ -186,18 +188,18 @@ class Grid() :
 
     def register_group (self, group : pygame.sprite.Group) :
         for spt in group :
-            for i in range(spt.rect.left-1,spt.rect.right-1) :
-                for j in range(spt.rect.top-1, spt.rect.bottom-1) :
+            for i in range(max(spt.rect.left-1,0),min(spt.rect.right-1,self.width)) :
+                for j in range(max(spt.rect.top-1,0), min(spt.rect.bottom-1,self.height)) :
                     self.grid[i][j].append(spt)
 
     def register(self, spt) :
-        for i in range(spt.rect.left-1,spt.rect.right-1) :
-            for j in range(spt.rect.top-1, spt.rect.bottom-1) :
+        for i in range(max(spt.rect.left-1,0),min(spt.rect.right-1,self.width)) :
+            for j in range(max(spt.rect.top-1,0), min(spt.rect.bottom-1,self.height)) :
                 self.grid[i][j].append(spt)
 
     def kill(self, spt) :
-        for i in range(spt.rect.left-1,spt.rect.right-1) :
-            for j in range(spt.rect.top-1, spt.rect.bottom-1) :
+        for i in range(max(spt.rect.left-1,0),min(spt.rect.right-1,self.width)) :
+            for j in range(max(spt.rect.top-1,0), min(spt.rect.bottom-1,self.height)) :
                 self.grid[i][j].remove(spt)
 
     def update(self, spt: pygame.sprite.Sprite, clean = True, before : pygame.Rect = None ) :
@@ -209,18 +211,18 @@ class Grid() :
         #t=time.time()
         crash = []
         if not clean :
-            for i in range(before.left-1, before.right-1) :
-                for j in range(before.top-1, before.bottom-1) :
+            for i in range(max(before.left-1,0), min(before.right-1,self.width)) :
+                for j in range(max(before.top-1,0), min(before.bottom-1,self.height)) :
                     self.grid[i][j].remove(spt)
-            for i in range(spt.rect.left-1, spt.rect.right-1):
-                for j in range(spt.rect.top-1, spt.rect.bottom-1) :
+            for i in range(max(spt.rect.left-1,0), min(spt.rect.right-1,self.width)):
+                for j in range(max(spt.rect.top-1,0), min(spt.rect.bottom-1,self.height)) :
                     for crsh in self.grid[i][j] :
                         if not crsh in crash :
                             crash.append(crsh)
                     self.grid[i][j].append(spt)
         else :
-            for i in range(spt.rect.left-1, spt.rect.right-1):
-                for j in range(spt.rect.top-1, spt.rect.bottom-1) :
+            for i in range(max(spt.rect.left-1,0), min(spt.rect.right-1,self.width)):
+                for j in range(max(spt.rect.top-1,0), min(spt.rect.bottom-1,self.height)) :
                     for crsh in self.grid[i][j] :
                         if not crsh in crash :
                             crash.append(crsh)
