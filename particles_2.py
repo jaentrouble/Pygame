@@ -2,6 +2,7 @@ import pygame
 import random
 import os
 import functions_2 as tool
+import math
 
 IMAGE = 'image'
 PARTICLELAYER = -1
@@ -162,7 +163,7 @@ class NecroticBody(Particle) :
 class Cytokine(Particle) :
     surface_dict = {}
 
-    def __init__ (self, startpos : list, speed : list, name : str, color : tuple) :
+    def __init__ (self, startpos : list, speed : list, name : str, color : tuple, expect_life : int = 200) :
         Particle.__init__(self, startpos, speed, 3)
         self.name = name
         if not name in Cytokine.surface_dict :
@@ -170,7 +171,9 @@ class Cytokine(Particle) :
             Cytokine.surface_dict[self.name] = self.image.copy()
             Cytokine.surface_dict[self.name].fill(newcolor)
         self.image = Cytokine.surface_dict[self.name]
-        self.life = 200 #of frames until death
+        sigma = 0.3
+        mu = math.log(expect_life)-sigma**2/2
+        self.life = int(random.lognormvariate(mu,sigma))#of frames until death
         
     def update(self):
         Particle.update(self)

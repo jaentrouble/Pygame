@@ -54,11 +54,12 @@ class Macrophage (HumanCell) :
         self.phagosome = []
         self.gene.extend([Macrophage.phagocytosis,Macrophage.lysosome, Macrophage.update_phagosome, \
             Macrophage.attracted])
-        self.attractant = [cytokine.Nb, cytokine.IFN1]
+        self.attractant = [cytokine.Nb, cytokine.IFN1, cytokine.Ab]
+        self.phagosis = [particle.NecroticBody, particle.ApoptoticBody]
 
     def phagocytosis (self) :
         for crsh in self.crashed :
-            if isinstance(crsh, particle.NecroticBody) :
+            if any(isinstance(crsh, p) for p in self.phagosis) :
                 crsh.set_speed(0,0)
                 self.phagosome.append(crsh)
                     
@@ -70,6 +71,9 @@ class Macrophage (HumanCell) :
                 crsh.lysis()
 
     def lysosome(self) :
+        """
+        try to lysis anything that's in phagosome; if fail, stil in phagosome
+        """
         self.phagosome[:] = [ph for ph in self.phagosome if not ph.lysis()]
 
     def update_phagosome (self) :

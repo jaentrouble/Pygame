@@ -21,3 +21,12 @@ class IFN1(particle.Cytokine) :
 
     def __init__(self, startpos : list, speed : list) :
         particle.Cytokine.__init__(self, startpos, speed, type(self).__name__, IFN1.color)
+
+class Ab (particle.Cytokine) :
+    color = (0,255,0)
+    IMGDICT['Ab'] = particle.Particle.imgs[3].copy()
+    IMGDICT['Ab'].fill(color)
+    LAYERDICT['Ab'] = PARTICLELAYER
+
+    def __init__(self, startpos : list, speed : list) :
+        particle.Cytokine.__init__(self, startpos, speed, type(self).__name__, Ab.color)

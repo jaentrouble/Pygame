@@ -265,6 +265,8 @@ class Eukaryote(Cell) :
 
     def apoptosis(self) :
         particle.ApoptoticBody(self.pos, (0,0))
+        for _ in range(40) :
+            cytokine.Ab(self.pos, tool.rand_2D(1.2))
         self.kill()
 
     def necrosis(self) :
