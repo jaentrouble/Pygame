@@ -3,10 +3,9 @@ import random
 import os
 import functions_2 as tool
 import math
+from layerconst_2 import *
 
 IMAGE = 'image'
-PARTICLELAYER = -1
-DEFAULTLAYER = 0
 IMGDICT = {}
 LAYERDICT = {}
 

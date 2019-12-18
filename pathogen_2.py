@@ -6,7 +6,7 @@ import particles_2 as particle
 import functions_2 as tool
 import cells_2 as cell
 import viralparticles_2 as vp
-PATHOGENLAYER = 1
+from layerconst_2 import *
 
 class Virus (cell.Cell) :
     virus_list = []

@@ -8,8 +8,8 @@ import functions_2 as tool
 import cells_2 as cell
 import viralparticles_2 as vp
 import cellreceptors_2 as creceptor
+from layerconst_2 import *
 IMGDICT = {}
-DEFAULTLAYER = cell.DEFAULTLAYER
 LAYERDICT = {}
 
 class HumanCell(cell.Eukaryote) :

@@ -7,6 +7,7 @@ import functions_2 as tool
 import particles_2 as particle
 import eukaryote_2 as eukaryote
 import virus_2 as virus
+import grampos_2 as gramp
 import time
 import sys
 
@@ -79,6 +80,8 @@ class Main() :
                         eukaryote.CD8Tcell((x,y), tool.rand_2D(1))
                     elif event.key == pygame.K_m :
                         eukaryote.Macrophage((x,y), tool.rand_2D(1))
+                    elif event.key == pygame.K_b :
+                        gramp.Aureus((x,y), tool.rand_2D(1))
                     elif event.key == pygame.K_e :
                         eukaryote.Epithelium((x,y), (1,1))
                     elif event.key == pygame.K_v :
