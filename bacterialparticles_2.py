@@ -42,3 +42,15 @@ class TSST():
     hyperimmunity, similar to sepsis
     """
     pass
+
+############S.Pyogenes#############################
+class MProtein():
+    """
+    MProtein
+    Inhibits C3b
+    Similar structure as muscle ; Antibodies for M Protein can bind to the muscle too
+    Therefore induces rheumatic fever
+    """
+
+class FProtein():
+    pass

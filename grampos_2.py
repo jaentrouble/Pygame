@@ -61,6 +61,9 @@ class Epidermidis(CNS) :
     """
     Staphylococcus Epidermidis
     """
+    rect = cell.Cell.imgs[7].get_rect()
+    IMGDICT['Epidermidis'] = cell.Cell.imgs[7]
+    LAYERDICT['Epidermidis'] = PATHOGENLAYER
     def __init__(self, startpos : list, speed : list) :
         CNS.__init__(self,startpos,speed, 7)
         self.properties[bp.Catalase] = True
@@ -72,7 +75,30 @@ class Saprophyticus(CNS) :
     Skin or Urogenital mucus
     Novobiocin resistant
     """
+    rect = cell.Cell.imgs[7].get_rect()
+    IMGDICT['Saprophyticus'] = cell.Cell.imgs[7]
+    LAYERDICT['Saprophyticus'] = PATHOGENLAYER
     def __init__(self, startpos : list, speed : list) :
         CNS.__init__(self,startpos,speed, 7)
         self.properties[bp.Catalase] = True
         self.properties[bp.Coagulase] = False
+
+class Streptococcus(Coccus) :
+    def __init__(self, startpos : list, speed : list, imgnum : int = 7) :
+        Coccus.__init__(self,startpos,speed, imgnum)
+        self.properties[bp.Catalase] = False
+
+class Pyogenes(Streptococcus) :
+    """
+    Streptococcus Pyogenes
+    Beta-hemolysis, Group A
+    """
+    rect = cell.Cell.imgs[7].get_rect()
+    IMGDICT['Pyogenes'] = cell.Cell.imgs[7]
+    LAYERDICT['Pyogenes'] = PATHOGENLAYER
+
+    def __init__(self, startpos : list, speed : list) :
+        Streptococcus.__init__(self,startpos,speed, 7)
+        self.receptor.extend([bp.MProtein,
+                              bp.FProtein])
+        
