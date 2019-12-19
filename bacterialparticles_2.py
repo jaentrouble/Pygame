@@ -5,6 +5,15 @@ class OuterMembrane():
     pass
 
 class Catalase():
+    """
+    Catalase
+    With Catalase, bacteria is aerobic
+
+    G(+) cocci : Staphylococcus = positive
+                 Streptococcus = negative
+    G(+) bacilli : Bacillus = positive
+                   Clostridium = negative
+    """
     pass
 
 class Coagulase():
@@ -24,6 +33,7 @@ class Spore() :
     """
 
 ############S.Aureus#############################
+
 class ProteinA():
     pass
 
@@ -54,6 +64,7 @@ class TSST():
     pass
 
 ############S.Pyogenes#############################
+
 class MProtein():
     """
     MProtein
@@ -70,3 +81,31 @@ class DicksToxin():
     성홍열
     """
     pass
+
+###########B.Anthracis############################
+
+class PA():
+    """
+    Protective Antigen
+    """
+
+class EF():
+    """
+    Edema Factor
+    adenylcyclase
+    """
+
+class LF():
+    """
+    Lethal Factor
+    zinc metalloproteinase
+    """
+
+############C.Diphtheriae##########################
+
+class DiphtheriaToxin():
+    """
+    Diphtheria Toxin
+    Encoded in Phage, Lysogenic conversion
+    EF2 (Elongation Factor) inhibition => blocks Protein synthesis
+    """

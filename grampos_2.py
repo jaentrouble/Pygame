@@ -213,3 +213,116 @@ class Bacillus(prokaryote.GramPositive) :
     def __init__(self, startpos : list, speed : list, imgnum : int = 8) :
         prokaryote.GramPositive.__init__(self,startpos,speed,imgnum)
         self.properties[bp.Spore] = True
+        self.properties[bp.Catalase] = True
+
+class Anthracis(Bacillus) :
+    """
+    Bacillus Anthracis(탄저균)
+
+    Infection = Skin injury : 침입조직에서 발아, 증식, 혈류로 들어가 sepsis
+                                -> 피부탄저, eschar 형성, mortality 20%
+                Respiratory : 폐, 기관지 lymph node -> sepsis -> mostly die, Woolsorter's disease
+                Infected animal meat : 장염 동반, high mortality, very rare
+
+    Cure = many antibiotics work, but need to be quick
+            Penicillin : low effect on respiratory anthrax
+            Penicillin G, Amoxicillin 조기투여
+            Ciproflaxacin : 경험적
+
+    Vaccine is effective
+    """
+    rect = cell.Cell.imgs[8].get_rect()
+    IMGDICT['Anthracis'] = cell.Cell.imgs[8]
+    LAYERDICT['Anthracis'] = PATHOGENLAYER
+
+    def __init__(self, startpos : list, speed : list,) :
+        Bacillus.__init__(self,startpos,speed, 8)
+        self.properties[bp.Capsule] = True #However, it's protein; cannot induce meningitis
+                                           #Still, evades phagocytosis
+        self.toxin[bp.PA,
+                   bp.EF,
+                   bp.LF]
+
+class Cereus(Bacillus) :
+    """
+    Bacillus Cereus
+    Disease = 'Fried Rice Syndrome', 식중독
+    Resistance = Penicillin
+                 Highly resistant to heat (Spores)
+    Disease = 구토형 식중독 : contaminated rice
+              설사형 식중독 : contaminated meat, vegitable
+              외상 : infection at eyes
+    """
+    rect = cell.Cell.imgs[8].get_rect()
+    IMGDICT['Cereus'] = cell.Cell.imgs[8]
+    LAYERDICT['Cereus'] = PATHOGENLAYER
+
+    def __init__(self, startpos : list, speed : list,) :
+        Bacillus.__init__(self,startpos,speed, 8)
+        self.properties[bp.Capsule] = False
+        self.properties[bp.Catalase] = True
+
+###########################################################
+
+class Listeria(prokaryote.GramPositive) :
+    pass
+
+class Monocytogenes(Listeria) :
+    """
+    Listeria Monocytogenes
+    Beta-hemolysis
+    Mobility (+) : Tumbling (end over end)
+    세포내 기생세균 : Macrophage, Epithelium
+                        -> breaks phagolysosome
+    Epidemiology :  Can cross placenta
+                    Able to multiplicate at refrigerate temperature
+                    Latent 7~28 days
+    Diseases : 신생아 리스테리아증
+                    => Early Onset = 유산, 조산, 사산, 출산 후 사망, Granulomatosis Infantiseptica
+                    => Late Onset = Sepsis & Meningitis
+               성인 감염
+                    => Asymptomatic or light cold
+                    => Meningitis if immune deficiency
+                Primary Bacteraemia
+    Cure = Penicillin, Ampicillin, Vancomycin
+    """
+    rect = cell.Cell.imgs[8].get_rect()
+    IMGDICT['Monocytogenes'] = cell.Cell.imgs[8]
+    LAYERDICT['Monocytogenes'] = PATHOGENLAYER
+
+    def __init__(self, startpos : list, speed : list,) :
+        Listeria.__init__(self,startpos,speed, 8)
+        self.properties[bp.Spore] = False
+        self.properties[bp.Catalase] = True
+
+############################################################
+
+class Corynebacterium(prokaryote.GramPositive) :
+    """
+    Corynebacterium
+    그람양성막대균
+    곤봉모양
+    """
+
+class Diphtheriae(Corynebacterium) :
+    """
+    Corynebacterium Diphtheriae
+    Respiratory Diphtheria
+        => 2~5 days latent phase
+        => Pseudomembrane : blocks upper respiratory tract
+        => Diphthera Toxin : Organ destruction (including heart)
+    Skin Diphtheria
+
+    Cure = Anti-toxin : Problem of toxin, so anti-toxin is needed
+           Airway secured
+
+    Prevention = Vaccination : Diphtheria Toxoid (Formalin) -> DTP
+    """
+    rect = cell.Cell.imgs[8].get_rect()
+    IMGDICT['Diphtheriae'] = cell.Cell.imgs[8]
+    LAYERDICT['Diphtheriae'] = PATHOGENLAYER
+
+    def __init__(self, startpos : list, speed : list,) :
+        Corynebacterium.__init__(self,startpos,speed, 8)
+        self.toxin.extend([bp.DiphtheriaToxin])
+        
