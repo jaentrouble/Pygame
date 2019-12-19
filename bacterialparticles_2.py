@@ -11,7 +11,17 @@ class Coagulase():
     pass
 
 class Capsule():
+    """
+    Polysaccharide Capsule
+    Which has Capsule, causes meningitis
+    """
     pass
+
+class Spore() :
+    """
+    Spores
+    Resistant cells that grow into a new bacteria via asexual reproduction
+    """
 
 ############S.Aureus#############################
 class ProteinA():

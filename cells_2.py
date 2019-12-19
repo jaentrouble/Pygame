@@ -28,6 +28,7 @@ class Cell(pygame.sprite.DirtySprite) :
         imgs.append(pygame.image.load(os.path.join(IMAGE, "CD8.png")))             #5
         imgs.append(pygame.image.load(os.path.join(IMAGE, "prokaryote.png")))      #6
         imgs.append(pygame.image.load(os.path.join(IMAGE, "coccus_positive.png"))) #7
+        imgs.append(pygame.image.load(os.path.join(IMAGE, "bacillus.png")))        #8
 
     except:
         raise UserWarning( "Unable to load Cell images")
