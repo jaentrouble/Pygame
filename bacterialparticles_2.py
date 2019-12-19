@@ -54,3 +54,9 @@ class MProtein():
 
 class FProtein():
     pass
+
+class DicksToxin():
+    """
+    성홍열
+    """
+    pass

@@ -91,7 +91,16 @@ class Streptococcus(Coccus) :
 class Pyogenes(Streptococcus) :
     """
     Streptococcus Pyogenes
-    Beta-hemolysis, Group A
+    Beta-hemolysis, Group A (bacitracin sensitive)
+    diseases =  pharyngitis,
+                scarlet fever(성홍열) : only which has toxin by Phage
+                pyoderma,
+                cellulitis
+                necrotizing fascitis : 피하조직 감염, fascial plane 번짐, life threatening
+                streptococcal toxic shoc syndrome : M protein & speA, speC
+                ----- non pyogenic disease
+                rheumatic fever
+    diagnosis = Bacitracin A disk susceptible test -> only pyogenes is sensitive
     """
     rect = cell.Cell.imgs[7].get_rect()
     IMGDICT['Pyogenes'] = cell.Cell.imgs[7]
@@ -101,4 +110,10 @@ class Pyogenes(Streptococcus) :
         Streptococcus.__init__(self,startpos,speed, 7)
         self.receptor.extend([bp.MProtein,
                               bp.FProtein])
-        
+        self.toxin.extend([bp.DicksToxin])
+
+class Agalactiae(Streptococcus) :
+    """
+    Streptococcus Agalactiae
+    
+    """
