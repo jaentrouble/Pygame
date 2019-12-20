@@ -32,6 +32,15 @@ class Spore() :
     Resistant cells that grow into a new bacteria via asexual reproduction
     """
 
+class MycolicAcid() :
+    """
+    Mycolic Acid
+    = Acid-fast (+)
+    """
+
+class Flagellum():
+    pass
+
 ############S.Aureus#############################
 
 class ProteinA():

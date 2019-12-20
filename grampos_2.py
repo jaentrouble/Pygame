@@ -325,4 +325,144 @@ class Diphtheriae(Corynebacterium) :
     def __init__(self, startpos : list, speed : list,) :
         Corynebacterium.__init__(self,startpos,speed, 8)
         self.toxin.extend([bp.DiphtheriaToxin])
+        self.properties[bp.Catalase] = True
+        self.properties[bp.Spore] = False
         
+############################################################
+
+class Erysipelothrix(prokaryote.GramPositive) :
+    pass
+
+class Rhusiopathiae(Erysipelothrix) :
+    """
+    E. Rhusiopathiae
+    돼지에서 단독(Erysipelas) 유발 -> 인수공통감염
+    
+    Cure = Penicillin : very sensitive
+
+    """
+    rect = cell.Cell.imgs[8].get_rect()
+    IMGDICT['Rhusiopathiae'] = cell.Cell.imgs[8]
+    LAYERDICT['Rhusiopathiae'] = PATHOGENLAYER
+
+    def __init__(self, startpos : list, speed : list,) :
+        Erysipelothrix.__init__(self,startpos,speed, 8)
+        self.properties[bp.Spore] = False
+        self.properties[bp.Catalase] = False
+
+#############################################################
+
+class Actinomyces(prokaryote.GramPositive) :
+    """
+    Actinomyces
+    Similar to Fungus => 'myces'
+
+    Normal flora = Upper respiratory tract
+                   Gastrointestine
+                   Female Genitalia
+    Mucus need to be broken before infection (Injury, Surgery, etc)
+    Disease = Actinomycosis : chronic granuloma
+              - Oral => cervicofacial infection, no pain, acute pus, slow
+              - Chest => By respiratory
+    """
+
+class Nocardia(prokaryote.GramPositive) :
+    """
+    Nocardia
+    절대 산소성
+    Acid-Fast (+)
+    Hyphae (균사) 형성
+    Usually doesn't cause diseases
+    No toxin
+    No virulent factor
+
+    (면역 저하 환자에서)
+    Disease = Lung disease
+              Mycetoma
+              Lymphocutaneous infection
+              Superficial abscess
+              Cellulitis
+              (Not so often sepsis)
+
+    Infection = Exogenous
+                AIDS or 장기이식환자
+
+    Cure = 외과적
+           Sulfonamide
+           Over 6 weeks
+    """
+
+    def __init__(self, startpos : list, speed : list, imgnum : int = 8) :
+        prokaryote.GramPositive.__init__(self,startpos,speed,imgnum)
+        self.properties[bp.MycolicAcid] = True
+        self.properties[bp.Catalase] = True
+
+class Rhodococcus(prokaryote.GramPositive):
+    """
+    Rhodococcus
+    Acid-Fast (+)
+    Pneumonia
+    High Antibacteria resistance
+    """
+    def __init__(self, startpos : list, speed : list, imgnum : int = 8) :
+        prokaryote.GramPositive.__init__(self,startpos,speed,imgnum)
+        self.properties[bp.MycolicAcid] = True
+
+##########################################################################
+
+class Mycobacterium(prokaryote.GramPositive) :
+    """
+    Mycobacterium
+    Acid-Fast (+)
+    Cell wall : Although Gram positive, thinner than normal Gram(+) bacteria
+                A lot of lipid in the cell wall (60% of the dried body)
+    """
+    def __init__(self, startpos : list, speed : list, imgnum : int = 8) :
+        prokaryote.GramPositive.__init__(self,startpos,speed,imgnum)
+        self.properties[bp.Spore] = False
+        self.properties[bp.Flagellum] = False
+        self.properties[bp.MycolicAcid] = True
+
+class Tuberculosis(Mycobacterium) :
+    """
+    Mycobacterium Tuberculosis
+    Disinfect = 저온살균법
+                UV light
+
+    Pathogeneis = Ability to survive in Macrophage
+                    => Antibody 도움 안 됨
+                    => Cell immunity 방어 담당
+                    => Granuloma
+
+    Immunity = IFN-gamma activated macrophage
+               TNF-alpha, Vit-D : Activate Macrophage
+               BCG : effective not to lung tuberculosis but to 파종감염
+
+    Cure = Isoniazid
+           Rifampin
+           Pyrazinamide - 초기 2개월
+           Ethambutol or Streptomycin
+           => 6 months 다제병용 단기요법
+    """
+    def __init__(self, startpos : list, speed : list) :
+        Mycobacterium.__init__(self,startpos,speed,8)
+        
+class Leprae(Mycobacterium) :
+    """
+    Mycobacterium Leprae
+    No toxin
+    Infection = primarily to peripheral nerves : schwann cell => nerve damage
+                secondary to skin, eye, upper respiratory mucus, muscle, bone : Granuloma
+
+    Nerve problem = 통각마비
+                    신경염
+                    지각이상
+    
+    Syptoms depend on cell mediated immune reaction
+    결핵나병 : Th1, Highest
+    중간나병
+    나종나병 : Th2, Lowest
+
+    Cure = Dasone(DDS) + RFP 6 monthes : 결핵형
+                         + Clofaminize : 나종형
+    """
